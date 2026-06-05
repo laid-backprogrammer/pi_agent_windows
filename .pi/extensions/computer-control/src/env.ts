@@ -52,9 +52,9 @@ export function readMimoEnv(): MimoEnv {
     apiKey,
     chatCompletionsUrl,
     providerBaseUrl,
-    textModel: process.env.MIMO_TEXT_MODEL ?? "mimo-v2.5-pro",
+    textModel: process.env.MIMO_TEXT_MODEL ?? "mimo-v2.5",
     visionModel: process.env.MIMO_VISION_MODEL ?? "mimo-v2.5",
-    requireConfirm: parseBoolean(process.env.PI_CONTROL_REQUIRE_CONFIRM, true),
+    requireConfirm: parseBoolean(process.env.PI_CONTROL_REQUIRE_CONFIRM, false),
     actionDelayMs: parseInteger(process.env.PI_CONTROL_ACTION_DELAY_MS, 700),
   };
 }

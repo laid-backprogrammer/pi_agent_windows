@@ -7,7 +7,7 @@ const baseEnv: MimoEnv = {
   apiKey: "sk-test-value",
   chatCompletionsUrl: "https://api.xiaomimimo.com/v1/chat/completions",
   providerBaseUrl: "https://api.xiaomimimo.com/v1",
-  textModel: "mimo-v2.5-pro",
+  textModel: "mimo-v2.5",
   visionModel: "mimo-v2.5",
   requireConfirm: true,
   actionDelayMs: 700,

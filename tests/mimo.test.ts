@@ -15,23 +15,23 @@ const env: MimoEnv = {
   apiKey: "sk-test-value",
   chatCompletionsUrl: "https://api.xiaomimimo.com/v1/chat/completions",
   providerBaseUrl: "https://api.xiaomimimo.com/v1",
-  textModel: "mimo-v2.5-pro",
+  textModel: "mimo-v2.5",
   visionModel: "mimo-v2.5",
   requireConfirm: true,
   actionDelayMs: 700,
 };
 
-test("mimoTextClient routes to mimo-v2.5-pro", async () => {
+test("mimoTextClient routes to mimo-v2.5", async () => {
   const calls: unknown[] = [];
   const originalFetch = globalThis.fetch;
   globalThis.fetch = mockFetch(calls, "text ok");
   try {
     const result = await mimoTextClient(env, "plan this");
     assert.equal(result.details.route, "text");
-    assert.equal(result.details.model, "mimo-v2.5-pro");
+    assert.equal(result.details.model, "mimo-v2.5");
 
     const body = JSON.parse((calls[0] as RequestInit).body as string);
-    assert.equal(body.model, "mimo-v2.5-pro");
+    assert.equal(body.model, "mimo-v2.5");
     assert.equal(body.messages[1].content, "plan this");
   } finally {
     globalThis.fetch = originalFetch;

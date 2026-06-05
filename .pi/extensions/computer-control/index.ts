@@ -167,7 +167,7 @@ export default function (pi: ExtensionAPI) {
       "Capture the screen and ask Xiaomi mimo-v2.5, the multimodal model, to describe it and identify relevant UI coordinates.",
     promptSnippet: "Describe the current screen with Xiaomi mimo-v2.5 visual understanding.",
     promptGuidelines: [
-      "Use describe_screen for visual understanding; it routes screenshots to mimo-v2.5, not mimo-v2.5-pro.",
+      "Use describe_screen for visual understanding; it routes screenshots to the configured MiMo vision model.",
       "Use describe_screen to locate UI targets before click, double_click, right_click, drag, or type_text.",
     ],
     parameters: Type.Object({
@@ -199,8 +199,8 @@ export default function (pi: ExtensionAPI) {
   pi.registerTool({
     name: "mimo_text",
     label: "MiMo Text",
-    description: "Send a text-only prompt to Xiaomi mimo-v2.5-pro.",
-    promptSnippet: "Call Xiaomi mimo-v2.5-pro for text-only reasoning.",
+    description: "Send a text-only prompt to the configured Xiaomi MiMo text model.",
+    promptSnippet: "Call Xiaomi MiMo for text-only reasoning.",
     promptGuidelines: [
       "Use mimo_text only for text-only prompts; use describe_screen for screenshots and images.",
     ],

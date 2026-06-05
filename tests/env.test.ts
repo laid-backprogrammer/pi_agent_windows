@@ -41,12 +41,12 @@ test("readMimoEnv separates text and vision models", () => {
     vision: process.env.MIMO_VISION_MODEL,
   };
   process.env.XIAOMI_API_KEY = "sk-test-value";
-  process.env.MIMO_TEXT_MODEL = "mimo-v2.5-pro";
+  process.env.MIMO_TEXT_MODEL = "mimo-v2.5";
   process.env.MIMO_VISION_MODEL = "mimo-v2.5";
 
   try {
     const env = readMimoEnv();
-    assert.equal(env.textModel, "mimo-v2.5-pro");
+    assert.equal(env.textModel, "mimo-v2.5");
     assert.equal(env.visionModel, "mimo-v2.5");
   } finally {
     restore("XIAOMI_API_KEY", original.apiKey);
@@ -59,4 +59,3 @@ function restore(key: string, value: string | undefined): void {
   if (value === undefined) delete process.env[key];
   else process.env[key] = value;
 }
-

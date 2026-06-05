@@ -13,8 +13,8 @@ Pi's current project-local auto-discovery paths are `.pi/extensions/` and `.pi/s
 
 ## Model Routing
 
-- Text-only planning and reasoning uses `MIMO_TEXT_MODEL` (`mimo-v2.5-pro`).
-- Screen/image understanding uses `MIMO_VISION_MODEL` (`mimo-v2.5`).
+- Text planning and multimodal understanding both default to `mimo-v2.5`.
+- Override with `MIMO_TEXT_MODEL` or `MIMO_VISION_MODEL` only when you need a different Xiaomi MiMo model.
 - Xiaomi MiMo calls use the OpenAI-compatible `chat/completions` endpoint with the `api-key` header.
 
 ## Safety
@@ -39,3 +39,64 @@ npm run typecheck
 ```
 
 The `pi` command was not present on PATH during setup. Install or expose Pi CLI before launching this project with Pi.
+
+## Go WeChat iLink Agent
+
+The Go prototype runs independently from Pi. It scans into WeChat iLink, polls text messages, uses Xiaomi MiMo to convert an admin's natural-language request into a PowerShell plan, asks for WeChat confirmation, then executes inside the workspace.
+
+```powershell
+go test ./...
+go run ./cmd/wechat-ilink-agent
+```
+
+Optional flags:
+
+```powershell
+go run ./cmd/wechat-ilink-agent --root C:\Users\28444\Documents\wechat --config wechat_bot_config.json
+```
+
+Local secrets and runtime state stay untracked: `.env`, `wechat_bot_config.json`, and `.wechat-agent-output/`.
+
+During login the QR code is written to `.wechat-agent-qrcode.png` and opened automatically, avoiding terminal QR rendering issues on Windows.
+
+Windows automation confirmation defaults to disabled (`PI_CONTROL_REQUIRE_CONFIRM=false`) so mouse and keyboard actions can run without an extra UI confirmation step.
+
+## Window Sketch Audit Extension
+
+The project also includes a Pi tool for checking door/window elevation sketch photos:
+
+```text
+audit_window_elevation_sketch
+```
+
+It reads `.pi/window-checklist.md`, sends the sketch image to Xiaomi MiMo vision, and writes a redline SVG with numbered missing/unclear items. The default output location is a `reports/` folder next to the input image.
+
+Example Pi request:
+
+```text
+Use audit_window_elevation_sketch on E:\path\to\window-sketch.jpg
+```
+
+## WeChat Window Audit Bot
+
+This project can connect WeChat directly to the Pi window-sketch audit flow. It uses `@wechatbot/wechatbot` for iLink media download/upload and the local `audit_window_elevation_sketch` logic for MiMo vision review.
+
+Install the official generic WeChat Pi package once:
+
+```powershell
+npm exec -- pi install npm:@wechatbot/pi-agent
+```
+
+Then start Pi:
+
+```powershell
+npm run pi:wechat-audit
+```
+
+Inside Pi, run:
+
+```text
+/wechat-audit
+```
+
+Scan the QR image opened from `.wechat-audit-qrcode.png`, then send a door/window sketch image from WeChat. The bot replies with a text summary and uploads a generated `.audit.png` redline image for easy WeChat viewing. The source `.audit.svg` is still kept in the local report folder. Use `/wechat-audit-disconnect` to stop it.

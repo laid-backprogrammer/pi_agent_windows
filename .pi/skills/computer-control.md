@@ -10,7 +10,7 @@ Use this skill when the user asks Pi to inspect the screen, understand an image/
 ## Model Routing
 
 - Use `describe_screen` for visual interpretation. It captures a screenshot and sends it to Xiaomi `mimo-v2.5`, the multimodal model.
-- Use text-only reasoning with `mimo-v2.5-pro`; do not use `mimo-v2.5-pro` for image or screenshot understanding.
+- Use `mimo-v2.5` by default for both text reasoning and image/screenshot understanding.
 - If a task requires visual coordinates, first call `describe_screen` with a prompt asking for visible UI elements and approximate coordinates.
 
 ## Safe Workflow

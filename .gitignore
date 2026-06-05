@@ -3,4 +3,9 @@ node_modules/
 dist/
 coverage/
 *.log
-
+wechat_bot_config.json
+.wechat-agent-output/
+/.wechat-agent-qrcode.png
+/.wechat-audit/
+/.wechat-audit-qrcode.png
+wechat-ilink-agent.exe
