@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdtemp, readFile, writeFile } from "node:fs/promises";
+import { mkdtemp, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
@@ -13,8 +13,11 @@ import {
   type WindowSketchAuditJson,
 } from "../.pi/extensions/window-sketch-audit/src/audit.ts";
 
-const sampleImagePath =
-  "E:/xwechat_files/wxid_dvtyld7rcwcb22_43cf/temp/RWTemp/2026-06/83f1d9366732bb6b314fd86886264ece/658bc2851c8f7b9336410e48935c1f90.jpg";
+const sampleImagePath = "sample-window-sketch.jpg";
+const sampleJpegBytes = Buffer.from(
+  "ffd8ffe000104a46494600010100000100010000ffc000110805d3041f03011100021100031100ffd9",
+  "hex",
+);
 
 test("reads Markdown checklist and builds audit prompt", async () => {
   const dir = await mkdtemp(join(tmpdir(), "window-audit-"));
@@ -60,8 +63,7 @@ test("readImageSize reads PNG dimensions", () => {
 });
 
 test("readImageSize reads the provided JPG dimensions when available", async () => {
-  const bytes = await readFile(sampleImagePath);
-  const size = readImageSize(bytes);
+  const size = readImageSize(sampleJpegBytes);
   assert.equal(size.width, 1055);
   assert.equal(size.height, 1491);
   assert.equal(size.mime, "image/jpeg");
@@ -76,7 +78,7 @@ test("normalizedToPixel scales anchors by actual image size", () => {
 });
 
 test("renderAuditSvg includes image, red markers, arrows, and issue list", async () => {
-  const imageBytes = await readFile(sampleImagePath);
+  const imageBytes = sampleJpegBytes;
   const imageSize = readImageSize(imageBytes);
   const audit: WindowSketchAuditJson = {
     summary: "测试审图",

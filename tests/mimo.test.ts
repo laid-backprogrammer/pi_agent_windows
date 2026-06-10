@@ -19,6 +19,18 @@ const env: MimoEnv = {
   visionModel: "mimo-v2.5",
   requireConfirm: true,
   actionDelayMs: 700,
+  scrollStep: 6,
+  scrollRepeat: 1,
+  scrollDelayMs: 120,
+  scrollOverlapRatio: 0.1,
+  scrollMinOverlapRatio: 0.01,
+  scrollCalibrationStep: 3,
+  scrollOutputStitched: false,
+  longCaptureMaxFrames: 40,
+  longCaptureUnchangedFrames: 2,
+  longCaptureOutputDir: ".wechat-audit/screenshots",
+  wechatRecordsOcrChunkHeight: 3500,
+  wechatRecordsOcrChunkOverlap: 80,
 };
 
 test("mimoTextClient routes to mimo-v2.5", async () => {

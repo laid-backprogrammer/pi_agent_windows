@@ -31,7 +31,7 @@ func ExecutePowerShell(ctx context.Context, root, command string, timeout time.D
 			exe = "pwsh.exe"
 		}
 	}
-	cmd := exec.CommandContext(ctx, exe, "-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-Command", command)
+	cmd := exec.CommandContext(ctx, exe, "-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-Command", wrapPowerShellUTF8(command))
 	cmd.Dir = root
 	out, err := cmd.CombinedOutput()
 	result := ExecResult{Output: strings.TrimSpace(string(out))}
@@ -62,4 +62,12 @@ func ExecutePowerShell(ctx context.Context, root, command string, timeout time.D
 		}
 	}
 	return result, nil
+}
+
+func wrapPowerShellUTF8(command string) string {
+	return "$utf8NoBom = [System.Text.UTF8Encoding]::new($false)\n" +
+		"[Console]::InputEncoding = $utf8NoBom\n" +
+		"[Console]::OutputEncoding = $utf8NoBom\n" +
+		"$OutputEncoding = $utf8NoBom\n" +
+		command
 }
