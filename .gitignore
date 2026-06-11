@@ -3,6 +3,9 @@ node_modules/
 dist/
 coverage/
 *.log
+output/
+frames/
+chat_captures/
 wechat_bot_config.json
 .wechat-agent-output/
 /.wechat-agent-qrcode.png
